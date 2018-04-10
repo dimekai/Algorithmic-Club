@@ -1,7 +1,7 @@
 #include <iostream>
 
-Node* Reverse(struct Node* head){
-	struct Node*current, *prev, *next;
+Node* Reverse(Node* head){
+	Node*current, *prev, *next;
 	current = head;
 	prev = NULL;
 
