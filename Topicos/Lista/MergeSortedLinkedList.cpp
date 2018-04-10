@@ -32,10 +32,10 @@ Node* MergeLists(Node* headA, Node* headB){
 	}/*cierra while: termina de recorrer las listas
 	   o alguna de ellas, A o B, terminó antes*/
 
-	if (tempB!=NULL){ /*La lista B terminó antes de A*/
+	if (tempB!=NULL){ /*La lista A terminó antes de B*/
 		merge->next = tempB;
 	}
-	if (tempA!=NULL){/*La lista A terminó antes de B*/
+	if (tempA!=NULL){/*La lista B terminó antes de A*/
 		merge->next = tempA;
 	}
 	return head;
