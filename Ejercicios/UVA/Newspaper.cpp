@@ -1,45 +1,44 @@
 #include <iostream>
+#include <iomanip>
+#include <string>
 #include <utility>
 #include <vector>
-#include <string>
-#include <iomanip>
 
 using namespace std;
+const int K = 105;						/*Numero maximo de caracteres a pagar*/
 
 int main(){
-	pair <short,short> tests_paid;
-	int M;
-	string sentence = "";
-	float total=0;
-
-	while(cin >> tests_paid.first){					
-		for (int i = 0; i < tests_paid.first ; i++){	/*# de casos*/
-			vector<float> letters(255,0);				/*Todos los caracteres valen 0*/
-			cin >> tests_paid.second;  					/*# de letras a pagar*/
-			pair <char,float> char_value;				/*caracter-precio*/
-
-			for (int j = 0; j < tests_paid.second; j++){
-				cin >> char_value.first >> char_value.second;	
-				letters[char_value.first] = char_value.second;	
-			}
-			
-			cin >> M;
-			cin.ignore();
-			total = 0;
-			while(M--) {
-            	sentence="";
-            	getline(cin,sentence); 
-            	for (int k = 0; k < sentence.size(); k++)
-            		total += letters[sentence[k]];
-			}
-
-			//total /= 100.00;					/*total = total/100*/						
-			
-			/*cout.setf(ios::fixed);
-			cout.setf(ios::showpoint);
-			cout.precision(2);*/
-			cout << (int)total/100 <<"."<<(int)total%100<<"$"<<"\n"; 
-		}//cilerra for de casos
-	}//cierra while de casos
-}
-
+	vector<char> characteres(K,0);
+	vector<float> price(K,0);
+	pair<short,short> N_K;				/*Casos-#caracteres a pagar*/
+	double total = 0.0;			
+	string line = "";
+	
+	cin >> N_K.first;					/*# de casos*/
+	for (short i = 0; i < N_K.first; i++){
+		total = 0;						/*Inicializo total*/
+		cin >> N_K.second;
+		for (short j = 0; j < N_K.second; j++)		/*#caracteres a pagar*/
+			cin >> characteres[j] >> price[j];
+		
+		int M;
+		cin >> M;						/*# de lineas del texto*/
+		cin.ignore();
+		for (int k = 0; k < M; k++){					/*M numero de lineas*/
+			getline(cin,line);
+			for (int n = 0; n < line.size(); n++){		/*Recorre la cadena ingresada*/
+				for (int p = 0; p < N_K.second; p++){
+					if (line[n]==characteres[p])
+						total += price[p];
+				} /*Cierra for de matcheo: caratcerPago-caracterLinea*/
+			}/*termina de leer la i-esima cadena*/
+		}/*termina de leer las M lineas*/
+		total /= 100;		/*total = total/100;*/
+		cout.setf(ios::fixed);
+		cout.setf(ios::showpoint);
+		cout.precision(2);
+		cout << total <<"$"<<"\n";
+		characteres.clear();
+		price.clear();
+	}/*cierra el N-ésimo caso*/
+}	
