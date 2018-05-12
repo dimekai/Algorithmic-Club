@@ -24,7 +24,7 @@ int main(){
 		int M;
 		cin >> M;						/*# de lineas del texto*/
 		cin.ignore();
-		for (int k = 0; k < M; k++){					/*M numero de lineas*/
+		while(M--){					/*M numero de lineas*/
 			getline(cin,line);
 			for (int n = 0; n < line.size(); n++){		/*Recorre la cadena ingresada*/
 				for (int p = 0; p < N_K.second; p++){
