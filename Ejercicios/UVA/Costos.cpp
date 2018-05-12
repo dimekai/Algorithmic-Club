@@ -15,6 +15,5 @@ int main(){
 			cout << "Case "<< (i+1) << ":" << B;
 		}
 	}
-
 	return 0;
 }
