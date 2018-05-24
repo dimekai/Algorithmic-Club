@@ -39,10 +39,10 @@ int main(){
 
 
 		if(p <= (square_inside + ring-1) ){ /*Limite en Esquina Superior-Izquierda*/
-			line = square_inside + ring + rings_less - p;
+			line = square_inside + ring + rings_less - p; /*ya*/
 			column = sz - rings_less;
 
-		}else if( p >  (square_inside + ring-1) &&
+		}else if( p >  (square_inside + ring-1) && /*ya*/
 			      p <= (square_inside + 2*(ring-1)) ){ /*Limite de Esquina Superior izquierdo 
 			      											     a Esquina inferior izquierda*/
 			line = rings_less + 1;
@@ -51,10 +51,12 @@ int main(){
 		}else if( p > (square_inside + 2*(ring-1)) &&
 			      p <= (square_inside + 3*(ring-1)) ){ /*Limite de Esquina inferior izquierda
 			      											     a Esquina inferior derecha */
+			line = square_inside + 3*(ring-1) + rings_less + 1 - p; /*pendiente*/
+			column = rings_less + 1;
 
 		}else{ /*Limite de la Esquina inferior izquierda a la Esquina superior derecha: ring^2*/
-			line = 1;
-			column = sz-ring;
+			line = sz-rings_less;
+			column = square_inside + 3*(ring-1) + 1 + rings_less - p;
 		}
 
 	}/*cierra while que lee datos*/
