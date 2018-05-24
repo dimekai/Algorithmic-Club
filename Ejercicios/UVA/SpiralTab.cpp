@@ -12,14 +12,14 @@ using namespace std;
 
 int main(){
 	unsigned int sz,p;
-	long long ring, square_inside,contorno; 
 	while(cin>>sz>>p){
 		
 		if (sz+p==0) break;
+		long long ring, square_inside,rings_less, line, column; 
 
 		ring = 1;
 		while(p > ring*ring) /*Buscamos el anillo donde p está*/
-			ring+=2;	   /*Vamos buscando por numeros impares*/	
+			ring+=2;	     /*Vamos buscando por numeros impares*/	
 		
 		cout << "ring: " << ring << "\n";
 
@@ -29,16 +29,33 @@ int main(){
 		}
 
 		square_inside = (ring-2)*(ring-2); /*Es el cuadrado que está dentro del
-									       anillo que hemos encontrado.*/
+									         anillo que hemos encontrado.*/
 
-		contorno = (sz-ring)/2;
+		rings_less = (sz-ring)/2;   /*Es el # de anillos que no se contemplaron
+		                              en el momento de encontrar el anillo real: ring*/
 
 		cout << "square inside: " << square_inside <<"\n";
-		cout << "contorno: " << contorno << "\n";
+		cout << "rings discrimined: " << rings_less << "\n";
 
 
-		cout << "North: " << (square_inside + ring-1) << "\n";
-		cout << "West: " << (square_inside + ring-1)  << "-"<< (square_inside + 2*(ring-1)) << "\n";
-		cout << "South: " << (square_inside + 2*(ring-1))  <<"-" <<  (square_inside + 3*(ring-1)) << "\n";
+		if(p <= (square_inside + ring-1) ){ /*Limite en Esquina Superior-Izquierda*/
+			line = square_inside + ring + rings_less - p;
+			column = sz - rings_less;
+
+		}else if( p >  (square_inside + ring-1) &&
+			      p <= (square_inside + 2*(ring-1)) ){ /*Limite de Esquina Superior izquierdo 
+			      											     a Esquina inferior izquierda*/
+			line = rings_less + 1;
+			column = square_inside + 2*(ring-1) + rings_less - p + 1;
+
+		}else if( p > (square_inside + 2*(ring-1)) &&
+			      p <= (square_inside + 3*(ring-1)) ){ /*Limite de Esquina inferior izquierda
+			      											     a Esquina inferior derecha */
+
+		}else{ /*Limite de la Esquina inferior izquierda a la Esquina superior derecha: ring^2*/
+			line = 1;
+			column = sz-ring;
+		}
+
 	}/*cierra while que lee datos*/
 }
