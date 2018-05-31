@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cmath>
 using namespace std;
-
 /*...........................
 .. 13    12  11  10    25 ...
 .. 14  | 3   2   9  |  24 ...
@@ -11,7 +10,7 @@ using namespace std;
 .............................*/
 
 int main(){
-	unsigned int sz,p;
+	long long sz,p;
 	while(cin>>sz>>p){
 		
 		if (sz+p==0) break;
@@ -21,11 +20,11 @@ int main(){
 		while(p > ring*ring) /*Buscamos el anillo donde p está*/
 			ring+=2;	     /*Vamos buscando por numeros impares*/	
 		
-		cout << "ring: " << ring << "\n";
+		//cout << "ring: " << ring << "\n";
 
 		if(ring==1){
-			cout << "Line = " << (sz/2 + 1);
-			cout << ", column: "<< (sz/2 + 1) << ".\n";
+			cout << "Line = " << (sz/2)+1 << ", column = " << (sz/2)+1 << ".\n";
+			continue;
 		}
 
 		square_inside = (ring-2)*(ring-2); /*Es el cuadrado que está dentro del
@@ -34,30 +33,32 @@ int main(){
 		rings_less = (sz-ring)/2;   /*Es el # de anillos que no se contemplaron
 		                              en el momento de encontrar el anillo real: ring*/
 
-		cout << "square inside: " << square_inside <<"\n";
-		cout << "rings discrimined: " << rings_less << "\n";
+		/*cout << "square inside: " << square_inside <<"\n";
+		cout << "rings discrimined: " << rings_less << "\n";*/
 
 
 		if(p <= (square_inside + ring-1) ){ /*Limite en Esquina Superior-Izquierda*/
-			line = square_inside + ring + rings_less - p; /*ya*/
-			column = sz - rings_less;
+			line = sz - rings_less;
+			column = square_inside + ring + rings_less - p; 
 
-		}else if( p >  (square_inside + ring-1) && /*ya*/
+		}else if( (square_inside + ring-1) < p && 
 			      p <= (square_inside + 2*(ring-1)) ){ /*Limite de Esquina Superior izquierdo 
 			      											     a Esquina inferior izquierda*/
-			line = rings_less + 1;
-			column = square_inside + 2*(ring-1) + rings_less - p + 1;
-
-		}else if( p > (square_inside + 2*(ring-1)) &&
-			      p <= (square_inside + 3*(ring-1)) ){ /*Limite de Esquina inferior izquierda
-			      											     a Esquina inferior derecha */
-			line = square_inside + 3*(ring-1) + rings_less + 1 - p; /*pendiente*/
+			line = square_inside + 2*(ring-1) + rings_less - p + 1;
 			column = rings_less + 1;
 
+		}else if( (square_inside + 2*(ring-1)) < p &&
+			      p <= (square_inside + 3*(ring-1)) ){ /*Limite de Esquina inferior izquierda
+			      											     a Esquina inferior derecha */
+			line = rings_less + 1;
+			column = p - (square_inside + 2*(ring-1)) + rings_less + 1;
+
 		}else{ /*Limite de la Esquina inferior izquierda a la Esquina superior derecha: ring^2*/
-			line = sz-rings_less;
-			column = square_inside + 3*(ring-1) + 1 + rings_less - p;
+			line = p - (square_inside + 3*(ring-1)) + 1 + rings_less;
+			column = sz-rings_less;
 		}
+
+		cout << "Line = " << line << ", column = " << column << ".\n";
 
 	}/*cierra while que lee datos*/
 }
