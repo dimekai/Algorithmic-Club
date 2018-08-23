@@ -26,11 +26,11 @@ bool buscarY(vector<L> NT, L Y){
 	while(low <= high){
 		middle = (low+high)/2;
 
-		cout << "low: " << low <<"\n";
+		/*cout << "low: " << low <<"\n";
 		cout << "high: " << high <<"\n";
 		cout << "middle: " << middle <<"\n";
 		cout << "NT[" << middle << "]: " << NT[middle] <<"\n";
-
+		*/
 		if (NT[middle] == Y)
 			return true;
 		else if (NT[middle] > Y)
@@ -48,7 +48,7 @@ int main(){
 	L n;									/*Este será el numero a evaluar*/
 	cin >> n;								/*Leyendo el numero a evaluar*/
 	L const COTA = sqrt(2*n) + 1; 
-	vector<L> triangularNumbers(COTA,0);		/*Aqui van los sqrt(n) numeros triangulares*/
+	vector<L> triangularNumbers(COTA,0);	/*Aqui van los sqrt(n) numeros triangulares*/
 
 	triangularNumbers[0] = 0;
 	//cout << "# Triangulares < "<< n << ": \n";
@@ -61,7 +61,7 @@ int main(){
 		/*cout << "BUSCAR CON: \nX : " << triangularNumbers[j] <<"\n";
 		cout << "N-X: " << n - triangularNumbers[j]<<"\n";
 		cout << "_______\n";*/
-		if(((n- triangularNumbers[j])<n) && buscarY(triangularNumbers, n - triangularNumbers[j])){  /* X = triangularNumbers[j]*/
+		if(buscarY(triangularNumbers, n - triangularNumbers[j])){  /* X = triangularNumbers[j]*/
 			cout << "YES" <<"\n";
 			return 0;
 		}
