@@ -13,6 +13,20 @@ D f(D x){
 	return (p*exp(-x)) + (q*sin(x)) + (r*cos(x)) + (s*tan(x)) + (t*x*x) + u;
 }
 
+D binarySearch(){
+	minCOTA = 0.0;
+	maxCOTA = 1.0;
+	for(int j=0; j<50; j++){
+		middle = (minCOTA + maxCOTA)/2;
+		y = f(middle);
+		if(y > 0) 
+			minCOTA = middle;
+		else
+			maxCOTA = middle;
+	}
+	return minCOTA;
+}
+
 int main(){
 	while(cin >> p >> q >> r >> s >> t >> u){
 		D worseCase = p*exp(-1)+q*sin(1)+r*cos(1)+s*tan(1)+t+u;
@@ -20,21 +34,10 @@ int main(){
 			cout << "No solution\n";
 			continue;
 		}
-
-		minCOTA = 0.0;
-		maxCOTA = 1.0;
-		for(int j=0; j<50; j++){
-			middle = (minCOTA + maxCOTA)/2;
-			y = f(middle);
-			if(y > 0) 
-				minCOTA = middle;
-			else
-			   maxCOTA = middle;
-		}
-
+		
 		cout << fixed << showpoint;
 		cout << setprecision(4);
-		cout << minCOTA << "\n";
+		cout << binarySearch() << "\n";
 	}
 	return 0;
 }
