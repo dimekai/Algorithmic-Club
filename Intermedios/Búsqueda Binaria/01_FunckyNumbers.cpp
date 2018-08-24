@@ -1,3 +1,7 @@
+/*Problema en Codeforces:
+http://codeforces.com/problemset/problem/192/A
+*/
+
 #include <iostream>
 #include <vector>
 #include <cmath>

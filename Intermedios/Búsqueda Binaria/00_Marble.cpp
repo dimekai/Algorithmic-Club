@@ -2,8 +2,11 @@
 #include <utility> 		// pair
 #include <vector>		// vector
 #include <algorithm>    // sort
-
 using namespace std;
+
+/*Problema en UVa Judge: 
+https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1415
+*/
 
 int main(){
 	/*
