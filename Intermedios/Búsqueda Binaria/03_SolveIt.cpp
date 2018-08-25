@@ -1,3 +1,12 @@
+/*
+Author:		Jesús Kaimorts Díaz Medina
+Date:		August 23th, 2018.
+Problem:	Solve it
+Judge:		UVa Judge
+Topic:		Binary Search
+URL: 		https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1282
+*/
+
 #include <iostream>
 #include <iomanip>
 #include <cmath>

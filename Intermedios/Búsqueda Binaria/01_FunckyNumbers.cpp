@@ -1,7 +1,11 @@
-/*Problema en Codeforces:
-http://codeforces.com/problemset/problem/192/A
+/*
+Author:		Jesús Kaimorts Díaz Medina
+Date:		August 22th, 2018.
+Problem:	A. Funky Numbers 
+Judge:		Codeforces
+Topic:		Binary Search
+URL: 		http://codeforces.com/problemset/problem/192/A
 */
-
 #include <iostream>
 #include <vector>
 #include <cmath>

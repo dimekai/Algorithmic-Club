@@ -1,12 +1,17 @@
+/*
+Author:		Jesús Kaimorts Díaz Medina
+Date:		August 21st, 2018.
+Problem:	Where is the Marble?  
+Judge:		UVa Judge
+Topic:		Binary Search
+URL:		https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1415
+*/
+
 #include <iostream> 	// cin and cout
 #include <utility> 		// pair
 #include <vector>		// vector
 #include <algorithm>    // sort
 using namespace std;
-
-/*Problema en UVa Judge: 
-https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1415
-*/
 
 int main(){
 	/*
