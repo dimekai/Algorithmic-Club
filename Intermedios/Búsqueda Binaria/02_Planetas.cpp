@@ -8,18 +8,18 @@
 */
 #include <algorithm>
 #include <iostream> 
+#include <iomanip>
 #include <cmath> 
 #include <vector> 
-#define MAX_N 1100
+#define MAX 1100
 
 using namespace std;
-typedef unsigned short USh;
+
 typedef double D;
-typedef vector<int> vi;
+typedef vector<D> vd;
 
-USh num_planetas = 0;
-vi planetas(MAX_N,0);
-
+int num_planetas;
+vd planetas(MAX);
 /*
 	El análisis de este problema usa la función SystemEquilibrated en donde
 	se calculará el punto óptimo es a partir de dos puntos de referencia: 
@@ -35,49 +35,52 @@ vi planetas(MAX_N,0);
 	balancedForces, la cuál regresará la suma de todas las fuerzas para encontrar el
 	punto estable entre un par de planetas.
 
-	Se está encontrando el punto optimo, en un rango determinado, contemplando los planetas
-	para que el meteorito no colisione con un planeta.
-
+	Se está encontrando el punto optimo, en un rango determinado, contemplando los 
+	planetas para que el meteorito no colisione con un planeta.
 */
 
-D balancedForces(D pointM){
+D forcesBalanced(D pointM){
 	D sum_forces = 0;
-	for (int i = 0; i < num_planetas ; i++)
-		sum_forces += 1/fabs(planetas[i]-pointM);
-
+	for(int i = 0; i < num_planetas; i++)
+		sum_forces += 1/(planetas[i] - pointM);
+	
 	return sum_forces;
 }
 
 
-D systemEquilibrated(int planetaI, int planetaD){
-	D pointEquilibrated = 0.0;
-	while(planetaI <= planetaD){
-		pointEquilibrated = (planetaI + planetaD)/2;
+D systemBalanced(D planetaI, D planetaD){
+	D point_metheore;
+	int cotaMet = 25;
+	for(int k = 0; k < cotaMet; k++){
+		point_metheore = (planetaI + planetaD) / 2;
 
-		if(balancedForces(pointEquilibrated) > 0)	/*El sistema está más cargado a la derecha*/
-			planetaD = pointEquilibrated;
-		else 										/*El sistema está más cargado a la izquierda*/
-			planetaI = pointEquilibrated;
+		if(forcesBalanced(point_metheore) > 0)
+			planetaD = point_metheore;
+		else
+			planetaI = point_metheore;
 	}
+	return planetaI;
 }
 
 int main(){
+	ios::sync_with_stdio(0); 
+	cin.tie(0);
+	
 	while(cin >> num_planetas){
-		if(num_planetas == 0) break;
+		if (num_planetas == 0) break;
+		
+		D Pi;		
+		for(int j=0; j < num_planetas; j++)
+			cin >> Pi, planetas[j] = Pi;
 
-		for (int i = 0; i < num_planetas; i++)
-			cin >> planetas[i];
+		sort(planetas.begin(), planetas.begin()+num_planetas);
 
-		sort(planetas.begin(),planetas.end());
-
-		cout << (num_planetas - 1) << "\n";
-
-		for (int  = 1; i < num_planetas; ++i){
-			cout << fixed << showpoint;
-			cout << setprecision(4);
-			cout << systemEquilibrated(planetas[i-1],planetas[i])
+		cout << num_planetas-1 <<"\n";
+		
+		for(int i=1; i < num_planetas; i++){
+			cout << fixed << setprecision(3);
+			cout << systemBalanced(planetas[i-1],planetas[i]) << " ";
 		}
-		planetas.clear();
+		cout<<"\n";
 	}
-
 }
