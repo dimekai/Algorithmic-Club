@@ -38,3 +38,14 @@ void sieveFactorsSieve(lli n){
 			factorsPrime[j].push_back(possible_factor);
 	}
 }
+
+vi factores;
+void factorsOfaNumber(lli number){
+	vi cota_primes = sievePrime(number);
+	for(int i=0; i < cota_primes.size(); i++){
+		if(number%cota_primes[i] == 0){
+			factores[i] = cota_primes[i];
+			number /= cota_primes[i];
+		}
+	}
+}
