@@ -49,3 +49,34 @@ void factorsOfaNumber(lli number){
 		}
 	}
 }
+
+vi divisorsOfANumber(ulli N){
+	int cont = 0;
+	vi divisores;
+
+	for(int i =1; i < sqrt(N); i++){
+		if (N%i == 0) divisores.push_back(i);
+		if (i*i != N) divisores.push_back(N/i);
+	}
+
+	sort(divisores.begin(), divisores.end());
+
+	return divisores;
+}
+
+vi factoresPrimos(ulli N){
+	vi factores;
+	int root = sqrt(N);
+
+	for(int i = 2; i <= root ; i++){
+		while(N%i == 0){
+			factores.push_back(i);
+			N /= i;
+		}
+	}
+
+	if(N>1)
+		factores.push_back(N);
+
+	return factores;
+}
