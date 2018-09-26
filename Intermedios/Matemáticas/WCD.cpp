@@ -2,66 +2,92 @@
 #include <vector>
 #include <utility>
 #include <cmath>
-#include <set>
+#include <algorithm>
 
 using namespace std;
 
 typedef long long int lli;
-typedef pair<lli,lli> plli;
 typedef vector<int> vi;
-typedef vector<bool> vb;
+typedef pair<lli,lli> plli;
+typedef vector<plli> vplli;
 
-vi primes;
-vi isPrime;
+vi divisores(lli N){
+	vi divisores;
 
-void sievePrime(){
-	primes.clear();
-	vb isPrime(MAX_COTA+1,true);
-	int cota = sqrt(MAX_COTA)+1;
-	isPrime[0] = false;
-	isPrime[1] = false;
-	primes.push_back(2);
-	for(int j = 4; j<=MAX_COTA ; j+=2) /*Optimización 01*/
-		isPrime[j] = false;
-	
-	for(int k = 3; k<=MAX_COTA; k+=2){ /*Optimización 02*/
-		if(isPrime[k]){
-			primes.push_back(k);
-			if(k <= cota){			   /*Optimización 03*/
-				for (int i = k*k; i <= MAX_COTA; i+=2*k)
-					isPrime[i] = false;				
-			}
-		}
-	}
-}
-
-
-int GCD(lli a, lli b){
-	return (b)?GCD(b,a%b):a;
-}
-
-vi factoresPrimos(lli N){
-	vi factores;
-	int root = sqrt(N);
-
-	for(int i = 2; i <= root ; i++){
-		while(N%i == 0){
-			factores.push_back(i);
-			N /= i;
+	for(int i = 1; i <= sqrt(N); i++){
+		if (N%i == 0){
+		   divisores.push_back(i);
+		   if (i*i != N) divisores.push_back(N/i);
 		}
 	}
 
-	if(N>1)
-		factores.push_back(N);
+	sort(divisores.begin(), divisores.end());
 
-	return factores;
+	return divisores;
 }
+
+
+lli verifyWCD(vplli pairs, vi factors){
+	bool is = false;
+	for(int j = 0; j < factors.size() ; j++){
+		for(int i = 1; i < pairs.size() ; i++){
+
+			//cout << "Pair: [" << pairs[i].first << "," <<pairs[i].second << "]\n";
+			//cout << "fact: " << factors[j] << " ";
+
+			if(pairs[i].first%factors[j] == 0 || 
+		   	   pairs[i].second%factors[j] == 0 ){
+		   	   //cout << "Si \n";
+			   is += true;
+		   	   continue;
+			}else{ 
+				//cout << "No \n";
+		   		is = false;
+		   		break;
+		   	}
+		}
+		if(is)
+			return j;
+	}
+
+	return -1;
+}
+
 
 int main(){
-	lli numz;
-	cin >> numz;
-	cout << "Algo" << "\n";
-	vi fact = factorsOfaNumber(numz);
-	
-	cout << "\n";
+	int num;
+
+	while(cin >> num){
+			vplli pairs;
+		for(int i=0; i < num ; i++){
+			plli wcd;
+			cin >> wcd.first >> wcd.second;
+			pairs.push_back(wcd);
+		}
+
+		vi factors_a = divisores(pairs[0].first);
+		vi factors_b = divisores(pairs[0].second);	
+
+		/*
+		cout << "factores a:";
+		for(auto a: factors_a)
+			cout << a << " ";
+
+		cout << "\n";
+		cout << "factores b:";
+		for(auto b: factors_b)
+			cout << b << " ";
+		*/
+
+		lli isA = verifyWCD(pairs, factors_a);
+		lli isB = verifyWCD(pairs, factors_b);
+
+		//cout << "isA: " << isA;
+		//cout << "isB: " << isB;
+
+		if( isA != -1)			cout << factors_a[isA];
+		else if(isB != -1)		cout << factors_b[isB];
+		else	 				cout << "-1";
+		
+	}
 }
