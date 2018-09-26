@@ -10,23 +10,26 @@ typedef long long int lli;
 vi primes;
 vb isPrime;
 
-void sievePrime(int n){
-	isPrime.resize(n+1, true);
+void sievePrime(){
+	primes.clear();
+	vb isPrime(MAX_COTA+1,true);
+	int cota = sqrt(MAX_COTA)+1;
 	isPrime[0] = false;
 	isPrime[1] = false;
 	primes.push_back(2);
-	for(int j = 4; j<=n ; j+=2) /*Optimización 01*/
+	for(int j = 4; j<=MAX_COTA ; j+=2) /*Optimización 01*/
 		isPrime[j] = false;
-	int cota = sqrt(n);
-	for(int k = 3; k<=n; k+=2){ /*Optimización 02*/
+	
+	for(int k = 3; k<=MAX_COTA; k+=2){ /*Optimización 02*/
 		if(isPrime[k]){
 			primes.push_back(k);
-			if(k <= cota){		/*Optimización 03*/
-				for (int i = k*k; i <= n; i+=2*k)
+			if(k <= cota){			   /*Optimización 03*/
+				for (int i = k*k; i <= MAX_COTA; i+=2*k)
 					isPrime[i] = false;				
 			}
 		}
 	}
+	//return primes;
 }
 
 vvi factorsPrime;
@@ -50,13 +53,14 @@ void factorsOfaNumber(lli number){
 	}
 }
 
-vi divisorsOfANumber(ulli N){
-	int cont = 0;
+vi divisores(lli N){
 	vi divisores;
 
-	for(int i =1; i < sqrt(N); i++){
-		if (N%i == 0) divisores.push_back(i);
-		if (i*i != N) divisores.push_back(N/i);
+	for(int i =1; i <= sqrt(N); i++){
+		if (N%i == 0){
+		   divisores.push_back(i);
+		   if (i*i != N) divisores.push_back(N/i);
+		}
 	}
 
 	sort(divisores.begin(), divisores.end());
