@@ -70,9 +70,8 @@ vi divisores(lli N){
 
 vi factoresPrimos(ulli N){
 	vi factores;
-	int root = sqrt(N);
-
-	for(int i = 2; i <= root ; i++){
+	
+	for(int i = 2; i <= sqrt(N) ; i++){
 		while(N%i == 0){
 			factores.push_back(i);
 			N /= i;
