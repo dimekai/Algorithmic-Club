@@ -1,34 +1,38 @@
-#include <bits/stdc++.h>
+#include <iostream>
+
 using namespace std;
 
-typedef long long int lli;
-typedef vector<lli> vi;
+const int N = 6000000;
+int is_tetra[N + 1];
 
-vi howDivisors(lli N){
-	vi divisores;
-
-	for(lli i = 1; i <= sqrt(N); i++){
-		if ( N % i == 0){
-		   divisores.push_back(i);
-		   if ( i*i != N) divisores.push_back( N / i );
+void possible_tetrafactores(){
+	for(int i = 1; i <= N; ++i){
+		//cout << "i: " << i << "\n";
+		for(int j = i; j <= N; j += i){
+			//cout << "\t| j:" << j << " |";
+			is_tetra[j]++;
+			//cout << divs[j] << " multiplos |";
+			//cout << "\n";
 		}
+		//cout << "\n";
 	}
+}
 
-	sort(divisores.begin(), divisores.end());
-
-	return divisores;
+template<typename T>
+T tetrafactor_is(T n){
+	T count_tetras = 0;
+	for(T i = 1; i <=N ; i++){
+		if(is_tetra[i] == 4)	count_tetras++;
+		if(count_tetras == n) 	return i;	
+	}
+	return -1;
 }
 
 int main(){
-	lli n;
-	lli num_tetras = 0;
-	while(cin >> n){
-		vi is_tetra = howDivisors(n);
-		if(is_tetra.size() == 4){
-			cout << ++num_tetras << " : " << n << " = { ";
-			for(auto tetra : is_tetra)
-				cout << tetra << " ";
-			cout << "}\n";
-		}
-	}
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	possible_tetrafactores();
+	int n;
+	cin >> n;
+	cout << tetrafactor_is(n) << "\n";
 }
