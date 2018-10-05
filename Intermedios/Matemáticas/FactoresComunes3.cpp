@@ -45,5 +45,5 @@ int main(){
 	while(cin >> A >> B){
 		auto gcd = GCD(A,B);
 		cout << function_tau(gcd) << "\n";
-	}
+	} 
 }
