@@ -8,4 +8,4 @@ int main(){
 	lli x;
 	cin >> x;
 	cout << (int)log2(x) + 1 << "\n";
-}
+} 
