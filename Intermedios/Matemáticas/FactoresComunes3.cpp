@@ -12,7 +12,6 @@ T GCD(T a, T b){
 template<typename T>
 T function_tau(T gcd){
 	lli tau = 1, pot = 0;	/*https://es.wikipedia.org/wiki/Función_divisor*/
-
 	/*Hacer la optmización del factor primo 2 viendo la 
 	potencia máxima de éste, dividiendo entre 2 el gcd*/
 	while((gcd & 1) == 0){
