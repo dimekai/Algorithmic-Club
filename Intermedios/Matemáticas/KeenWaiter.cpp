@@ -13,7 +13,7 @@ void calculate(short N, vi & nums){
 	
 	i = 0;
 	cout << "\n";
-	while(nums[i] != 0){
+	while(nums[i] != 1){
 		string mayor = to_string(nums[i]);
 		string menor = to_string(nums[i+1]);
 		cout << "Mayor: " << mayor <<  "\nMenor: " << menor <<"\n";
