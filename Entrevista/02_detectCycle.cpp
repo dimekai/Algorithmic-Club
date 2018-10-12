@@ -32,7 +32,7 @@ ListNode* Solution::detectCycle(ListNode* A) {
         tortoise = tortoise->next;
         hape = hape->next->next;
         
-        if( tortoise = hape ){
+        if( tortoise == hape ){
             cycle = true;
             break;
         }
