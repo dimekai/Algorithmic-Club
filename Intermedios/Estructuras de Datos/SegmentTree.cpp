@@ -36,7 +36,7 @@ void update( int ini, int fin, int nodo, int x, int val ){
 int query( int ini, int fin, int nodo, int i, int j){
     if( fin < i && j < ini){
         return INF;
-    }else if( i <= inic  &&  fin <= j ){
+    }else if( i <= ini  &&  fin <= j ){
         return ST[ nodo ];
     }else{
         int mitad = ( ini + fin ) / 2;
