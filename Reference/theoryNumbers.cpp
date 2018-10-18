@@ -83,3 +83,50 @@ vi factoresPrimos(ulli N){
 
 	return factores;
 }
+
+
+/*
+	Implementación recursiva
+	@param a: representa la base
+	@param b: representa la potencia
+	@param n: representa el modulo
+
+	@return res: resultado de la exponenciacion binaria 
+
+	Complejidad: O(log(N))
+*/
+lli expo_mod_bin(lli a, lli b, lli n){
+	lli res = 1;
+	if( b == 1) return (a % n);
+	if( b % 2 == 0){ // Si la potencia es par
+		res = (expo_mod_bin(a, b>>1, n)) % n;
+		return ( res * res) % n; 
+	}else{
+		res = (expo_mod_bin(a, b - 1, n)) % n;
+		return ( res * (a % n) ) % n;
+	}
+}
+
+/*
+	Implementación no recursiva
+	@param a: representa la base
+	@param b: representa la potencia
+	@param n: representa el modulo
+
+	La expresion es de la forma
+			a^b % n
+
+	@return res: resultado de la exponenciacion binaria 
+*/
+lli expo_mod_bin(lli a, lli b, lli n){
+	lli res = 1;
+	
+	while(b){
+		if( b & 1) 
+			res = ( res * a) % n;
+		b >>= 1;
+		a = ( a * a) % n;
+	}
+
+	return res;
+}
