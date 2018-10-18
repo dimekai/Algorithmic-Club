@@ -33,6 +33,13 @@ void update( int ini, int fin, int nodo, int x, int val ){
     }
 }
 
+/*
+    @param i: Rango de busqueda inferior.
+    @param j: Rango de busqueda superior.
+    @param nodo: Valor del nodo en el rango.
+
+*/
+
 int query( int ini, int fin, int nodo, int i, int j){
     if( fin < i && j < ini){
         return INF;
