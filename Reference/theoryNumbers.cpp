@@ -93,6 +93,9 @@ vi factoresPrimos(ulli N){
 
 	@return res: resultado de la exponenciacion binaria 
 
+	La expresion es de la forma
+			a^b % n
+
 	Complejidad: O(log(N))
 */
 lli expo_mod_bin(lli a, lli b, lli n){
@@ -129,4 +132,20 @@ lli expo_mod_bin(lli a, lli b, lli n){
 	}
 
 	return res;
+}
+
+bool isPrime(lli n){
+    /*Casos de rangos*/
+    if( n <= 1 ) return false;
+    if( n <= 3 ) return true;
+
+    /*Checar primalidad de 
+    los primeros casos*/
+    if( n % 2 ==0 || n % 3 ==0 ) return false;
+    
+    for(lli i = 5; i*i <= n ; i += 6){
+        if( n%i == 0 || n%(i+2)==0)
+            return false;
+    }
+    return true;    
 }
