@@ -3,11 +3,19 @@
 
 using namespace std;
 
+int N, K;
 int elementos[MAX + 10];
-int segment_tree[5*MAX + 100];
+int segment_tree[4*MAX + 10];
 
+int helper(int x){
+    if(x == 0) 
+        return 0;
+    else if( x < 0) 
+        return -1;
+    else 
+        return 1;
+}
 /*============= SEGMENT TREE =============*/
-
 /* 
     @param nodo: Será el nodo al que se le asignara
                 la función.
@@ -17,7 +25,7 @@ int segment_tree[5*MAX + 100];
               es una simple multiplicación de valores.
 */
 int f(int nodo){
-    return segment_tree[ (2 * nodo) ] * segment_tree[ (2 * nodo) + 1]; 
+    return segment_tree[ 2 * nodo ] * segment_tree[ 2 * nodo + 1]; 
 }
 
 /* =============== CREATE SEGMENT TREE =================
@@ -27,14 +35,14 @@ int f(int nodo){
 
 */
 void createSegmentTree(int inicio, int fin, int nodo){
-    if ( inicio == fin){
-        segment_tree[ nodo ] = elementos[ inicio ];
-        return;
+    if ( inicio == fin){ /*Es una hoja*/
+        segment_tree[ nodo ] = helper( elementos[ inicio ] );
+        
     }else{
         int mitad = ( inicio + fin ) / 2;
         //createSegmentTree( inicio, mitad, nodo * 2); //Indexado desde 1
-        createSegmentTree( inicio, mitad, (nodo * 2)); //Indexado desde 0
-        createSegmentTree( mitad + 1, fin, (nodo * 2) + 1); 
+        createSegmentTree( inicio, mitad, nodo * 2); //Indexado desde 0
+        createSegmentTree( mitad + 1, fin, nodo * 2 + 1); 
         segment_tree[ nodo ] = f(nodo);
     }
 }
@@ -48,16 +56,15 @@ void createSegmentTree(int inicio, int fin, int nodo){
 
 */
 void update( int inicio, int fin, int nodo, int index, int val){
-    if( inicio == fin){
+    if( inicio == fin && inicio == index){
         segment_tree[ nodo ] = val;
-        return;
+
     }else if( inicio <= index && index <= fin){
         int mitad = ( inicio + fin ) / 2;
-        update (inicio, mitad, ( nodo * 2) , index, val);
-        update (mitad + 1, fin, ( nodo * 2) + 1 , index, val);
+        update (inicio, mitad, nodo * 2 , index, val);
+        update (mitad + 1, fin, nodo * 2 + 1 , index, val);
         segment_tree[ nodo ] = f(nodo);
     }
-    return;
 }
 
 /* ============ QUERY OF THE SEGMENT TREE ============
@@ -70,67 +77,59 @@ void update( int inicio, int fin, int nodo, int index, int val){
     Ejemplo: Si el rango es [1-7] :->  i = 1, j = 7
 
 */
-int query( int inicio, int fin, int nodo, int i, int j){
-    if( i > fin && j < inicio ){
+int query( int inicio, int fin, int nodo, int l , int r){
+    if( fin < l || r < inicio ){
         return 1; /* Se regresa uno por que M*1 = M y no afecta */
-    }else if( inicio >= i  &&  fin <= j ){
+    }else if( l <= inicio  &&  fin <= r ){
         return segment_tree[ nodo ];
     }else{
         int mitad = ( inicio + fin ) / 2;
-        int izq = query( inicio, mitad, (nodo * 2) , i, j);
-        int der = query( mitad + 1, fin, (nodo * 2) + 1, i, j);
+        int izq = query( inicio, mitad, nodo * 2 , l, r);
+        int der = query( mitad + 1, fin, nodo * 2 + 1, l, r);
         
-        return izq * der;
+        return (izq * der);
     }
 }
 
 
 int main(){
-    int N, K;
-    
+   
     while(cin >> N >> K){
-
-        string signo = "";
-        
-        for(int i = 0; i < N; i++){
+       
+        for(int i = 1; i <= N; i++)
             cin >> elementos[i];            
-            if( elementos[i] > 1)   elementos[i] = 1;
-            if( elementos[i] < -1)  elementos[i] = -1;
-        }
-
+            
         /* ==== Creating Segment Tree ==== */
-        createSegmentTree(0, N - 1, 1);
+        //createSegmentTree(inicio, fin, nodo);
+        createSegmentTree(1, N, 1);
         
-        char c[5];
+        for(int i = 1; i <= K ; i++){
+            char opc;
+            cin >> opc;
+            if( opc == 'C'){
+                int index, val;
+                cin >> index >> val;
 
-        while( K-- ){
-            cin >> c;
-            if( c[0] == 'C'){
-                /* I : indice   ,   V : valor */
-                int I, V;
-                cin >> I >> V;
-
-                if(V > 1)   V = 1;
-                if(V < -1)  V = -1;
-                I--;
             //  update(inicio,fin,nodo,indice,valor)
-                update(0, N - 1, 1, I, V);
-                elementos[ I ] = V;
-
-            }else{
-                /* I = i    , J = j */
-                int I , J, res;
-                cin >> I >> J;
-                I--, J--;
-                res = query( 0, N - 1, 1, I, J);
+                update(1, N, 1, index, helper(val));
                 
-                if (res == 1)         signo = signo + "+";
-                else if(res == -1)    signo = signo + "-";
-                else    signo = signo + "0";
+            }else{
+                /* I = l    , J = r */
+                int l , r;
+                cin >> l >> r;
+
+            //  query(inicio,fin,nodo,left , right)
+                int res = query(1,N,1, l,r);
+                
+               if(res == 0)
+					cout << "0";
+				else if(res < 0)
+					cout << "-";
+				else
+					cout << "+";
             }
         }
-        cout << signo << "\n";
+        cout << "\n";
     }
     return 0;
 }
-
