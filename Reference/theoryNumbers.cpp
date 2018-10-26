@@ -6,6 +6,7 @@ typedef vector<int> vi;
 typedef vector<bool> vb;
 typedef vector<vector<int>> vvi;
 typedef long long int lli;
+typedef pair<int,int> FACTOR; /*Se usa para el factorial*/
 
 vi primes;
 vb isPrime;
@@ -148,4 +149,32 @@ bool isPrime(lli n){
             return false;
     }
     return true;    
+}
+
+/*
+	=========== FACTORES DEL FACTORIAL ==========
+	@param: lli n -> Numero factorial
+	@param: const vector<int> & primos -> Criba de numeros primos
+	
+	@return: vector<FACTOR>: Se comporta como un Hash
+
+	@desc: Regresa un vector de pares con los factores primos
+		   del factorial de un número n: n!
+		   La criba de los primos debe estar previamente ordenada.
+*/
+
+vector<FACTOR> factoresFactorial(lli n, const vi & sieve_primos){
+	vector<FACTOR> factores;
+	for(int i = 0; i < primes.size(); i++){
+		if( primes[i] > n ) break;
+		int p = primes[i];
+		int reps = n / p;
+
+		while( primes[i] <= ( n / p ) ){
+			p *= primes[i];
+			reps += ( n / p );
+		}
+		factores.push_back( FACTOR ( primes[i], reps ) );
+	}
+	return factores;
 }
