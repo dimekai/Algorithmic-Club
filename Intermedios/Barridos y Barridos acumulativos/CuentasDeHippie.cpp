@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
-#define MAX 31000
+#define MAX 61100
+#define BEST 100000
 
 using namespace std;
 
@@ -9,7 +10,7 @@ int C, N;
 int collar[MAX];
 
 int main(){
-    int i , j , tmp = 0, mejor = 100000;
+    int i , j , tmp = 0, mejor = BEST;
     cin >> C >> N;
         
     for( i = 0; i < N; i++){
@@ -17,6 +18,17 @@ int main(){
         collar[i + N] = collar[i];
     }
 
+    /*Hago el collar de manera circular*/
+    N *= 2;
+    for(i = 0, j = 0; i < N; i++){
+        for(; tmp < C && j < N; j++)
+            if(!collar[j]) tmp++;
+        
+        if (tmp == C && j - i - C < mejor)
+			mejor = j - i - C;
 
+		if (!collar[i]) tmp--;
+    }
+    cout << mejor << "\n";
     return 0;
 }
