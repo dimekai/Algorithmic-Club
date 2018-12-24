@@ -11,7 +11,7 @@ typedef pair<int,int> FACTOR; /*Se usa para el factorial*/
 vi primes;
 vb isPrime;
 
-void sievePrime(){
+void sievePrime(lli MAX_COTA){
 	primes.clear();
 	vb isPrime(MAX_COTA+1,true);
 	int cota = sqrt(MAX_COTA)+1;
@@ -56,7 +56,6 @@ void factorsOfaNumber(lli number){
 
 vi divisores(lli N){
 	vi divisores;
-
 	for(int i =1; i <= sqrt(N); i++){
 		if (N%i == 0){
 		   divisores.push_back(i);
@@ -69,7 +68,7 @@ vi divisores(lli N){
 	return divisores;
 }
 
-vi factoresPrimos(ulli N){
+vi factoresPrimos(lli N){
 	vi factores;
 	
 	for(int i = 2; i <= sqrt(N) ; i++){
@@ -85,6 +84,15 @@ vi factoresPrimos(ulli N){
 	return factores;
 }
 
+vi suma;
+void sieveDivisors(int n){
+	suma.resize(n + 1, 0);
+	for(int i = 1; i <= n; i++){
+		for(int j = i; j <= n; j += i){
+			suma[j] += i;
+		}
+	}
+}
 
 /*
 	Implementación recursiva
@@ -135,7 +143,7 @@ lli expo_mod_bin(lli a, lli b, lli n){
 	return res;
 }
 
-bool isPrime(lli n){
+bool testisPrime(lli n){
     /*Casos de rangos*/
     if( n <= 1 ) return false;
     if( n <= 3 ) return true;
@@ -177,4 +185,81 @@ vector<FACTOR> factoresFactorial(lli n, const vi & sieve_primos){
 		factores.push_back( FACTOR ( primes[i], reps ) );
 	}
 	return factores;
+}
+
+lli GCD(lli a, lli b){
+	return (b)? GCD(b,a%b): a;
+}
+
+lli LCM(lli a, lli b){
+	return (abs(a*b)/GCD(a,b));
+}
+
+/*
+	@name:	phi_euler_v1
+	@param: int n;
+	@return: int phi
+	@desc:	Es la primera versión de phi de Euler.
+			Probablemente pueda ser optimizada.
+*/
+lli phi_euler_v1(lli n){
+	lli i = 1, phi = 0;
+	if(n <= 2)
+		return 1;
+	while(i < n){
+		if(GCD(i,n) == 1) 
+			phi++;
+		i++;
+	}
+	return phi;
+}
+
+/*
+	@name:	phi_euler
+	@param: int n;
+	@return: int phi
+	@desc:	Es la primera versión de phi de Euler optimizada.
+*/
+lli phi_euler(lli n, vi & primes){
+	lli ans = n;
+	for(lli & p : primes){
+		if(p * p > n) break;
+		if(n % p == 0){
+			while(n % p == 0){
+				n /= p;
+			}
+			ans -= ans / p;
+		}
+	}
+	if(n > 1) ans -= ans / n;
+	return ans;
+}
+
+lli phi(lli n){
+    lli res=0;
+    lli j;
+    if (n==1) return 1;
+    res=n;
+    if (n%2==0){
+        res-=res/2;
+        while (n%2==0) n/=2;
+    }
+    for (j=3; j*j<=n; j+=2){
+        if (n%j==0){
+            res-=res/j;
+            while (n%j==0) n/=j;
+        }
+    }
+    if (n>1) res-=res/n;
+    return res;
+}
+
+vi sieveOfFactorsPhiEuler;
+vi sievePhiEuler(lli n){
+	sieveOfFactorsPhiEuler.resize(n+1,1)
+	for(int i = 1; i <= n; i++){
+		//sieveOfFactorsPhiEuler[i] = phi_euler_v1(i);
+		sieveOfFactorsPhiEuler[i] = phi_euler(i);
+	}
+	return sieveOfFactorsPhiEuler;
 }
